@@ -1,4 +1,4 @@
-export type JWTUserDto = {
+export type JwtUserDto = {
   sub: number;
   email: string;
   iat: number;

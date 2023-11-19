@@ -1,0 +1,35 @@
+scalar Date
+scalar Void
+
+type Bookmark {
+  id: Int!
+  createdAt: Date!
+  updatedAt: Date!
+  title: String!
+  description: String
+  link: String!
+  userId: Int!
+}
+
+input CreateBookmark {
+  title: String!
+  description: String
+  link: String!
+}
+
+input EditBookmark {
+  title: String
+  description: String
+  link: String
+}
+
+type Query {
+  getBookmarks: [Bookmark!]
+  getBookmarkById(bookmarkId: Int!): Bookmark
+}
+
+type Mutation {
+  createBookmark(dto: CreateBookmark!): Bookmark!
+  editBookmarkById(bookmarkId: Int!, dto: EditBookmark!): Bookmark
+  deleteBookmarkById(bookmarkId: Int!): Void
+}

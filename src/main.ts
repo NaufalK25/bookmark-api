@@ -15,9 +15,10 @@ async function bootstrap() {
     .setTitle('Bookmark API')
     .setDescription('Rest API about bookmarking a link from a site')
     .setVersion('3.0.3')
-    .addTag('auth')
-    .addTag('users')
-    .addTag('bookmarks')
+    .addTag('welcome')
+    .addTag('auth', 'Authentication and authorization')
+    .addTag('users', 'CRUD for user data')
+    .addTag('bookmarks', 'CRUD for bookmark')
     .addBearerAuth(
       {
         type: 'http',
@@ -30,7 +31,7 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(3001);
 }

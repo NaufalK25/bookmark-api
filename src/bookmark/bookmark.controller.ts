@@ -20,7 +20,7 @@ import { CreateBookmarkDto, EditBookmarkDto } from './dto';
 @ApiTags('bookmarks')
 @ApiBearerAuth('access_token')
 @UseGuards(JwtGuard)
-@Controller('bookmarks')
+@Controller('api/bookmarks')
 export class BookmarkController {
   constructor(private bookmarkService: BookmarkService) {}
 

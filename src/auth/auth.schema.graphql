@@ -1,0 +1,13 @@
+input Auth {
+  email: String!
+  password: String!
+}
+
+type AuthResponse {
+  access_token: String!
+}
+
+type Mutation {
+  signup(dto: Auth!): AuthResponse!
+  signin(dto: Auth!): AuthResponse!
+}

@@ -1,0 +1,25 @@
+scalar Date
+
+type User {
+  id: Int!
+  createdAt: Date!
+  updatedAt: Date!
+  email: String!
+  hash: String!
+  firstName: String
+  lastName: String
+}
+
+input EditUser {
+  email: String
+  firstName: String
+  lastName: String
+}
+
+type Query {
+  getMe: User!
+}
+
+type Mutation {
+  editUser(dto: EditUser!): User
+}

@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 @ApiTags('users')
 @ApiBearerAuth('access_token')
 @UseGuards(JwtGuard)
-@Controller('users')
+@Controller('api/users')
 export class UserController {
   constructor(private userSerice: UserService) {}
 

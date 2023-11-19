@@ -4,12 +4,13 @@ import { Request } from 'express';
 
 export const GetUser = createParamDecorator(
   (data: keyof User | undefined, ctx: ExecutionContext) => {
-    const request: Request = ctx.switchToHttp().getRequest();
+    const req: Request = ctx.switchToHttp().getRequest();
+    const user = req.user;
 
     if (data) {
-      return request.user[data];
+      return user[data];
     }
 
-    return request.user;
+    return user;
   },
 );

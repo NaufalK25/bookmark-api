@@ -4,7 +4,7 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from '../src/auth/dto';
 import { PrismaService } from '../src/prisma/prisma.service';
-import { EditUserDto } from '../src/user/dto';
+import { ChangePasswordDto, EditUserDto } from '../src/user/dto';
 import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
 
 describe('App e2e', () => {
@@ -15,6 +15,7 @@ describe('App e2e', () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
+    const port = 3001;
 
     app = moduleRef.createNestApplication();
     app.useGlobalPipes(
@@ -23,11 +24,11 @@ describe('App e2e', () => {
       }),
     );
     await app.init();
-    await app.listen(3002);
+    await app.listen(port);
 
     prisma = app.get(PrismaService);
     await prisma.cleanDatabase();
-    pactum.request.setBaseUrl('http://localhost:3002/api');
+    pactum.request.setBaseUrl(`http://localhost:${port}/api`);
   });
 
   afterAll(() => {
@@ -134,6 +135,12 @@ describe('App e2e', () => {
 
   describe('User', () => {
     describe('Get me', () => {
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .get('/users/me')
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should get current user', () => {
         return pactum
           .spec()
@@ -146,6 +153,18 @@ describe('App e2e', () => {
     });
 
     describe('Edit user', () => {
+      it('should throw if unauthorized', () => {
+        const dto: EditUserDto = {
+          firstName: 'Naufal',
+          email: 'naufalk@gmail.com',
+        };
+
+        return pactum
+          .spec()
+          .patch('/users')
+          .withBody(dto)
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should edit user', () => {
         const dto: EditUserDto = {
           firstName: 'Naufal',
@@ -164,10 +183,76 @@ describe('App e2e', () => {
           .expectBodyContains(dto.email);
       });
     });
+
+    describe('Change password', () => {
+      it('should throw if unauthorized', () => {
+        const dto: ChangePasswordDto = {
+          oldPassword: '123',
+          newPassword: '1234',
+        };
+
+        return pactum
+          .spec()
+          .patch('/users/change-password')
+          .withBody(dto)
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
+      it('should throw throw if old and new password is the same', () => {
+        const dto: ChangePasswordDto = {
+          oldPassword: '123',
+          newPassword: '123',
+        };
+
+        return pactum
+          .spec()
+          .patch('/users/change-password')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(HttpStatus.FORBIDDEN);
+      });
+      it('should throw throw if old password does not match', () => {
+        const dto: ChangePasswordDto = {
+          oldPassword: '1234',
+          newPassword: '12345',
+        };
+
+        return pactum
+          .spec()
+          .patch('/users/change-password')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(HttpStatus.FORBIDDEN);
+      });
+      it('should change password', () => {
+        const dto: ChangePasswordDto = {
+          oldPassword: '123',
+          newPassword: '1234',
+        };
+
+        return pactum
+          .spec()
+          .patch('/users/change-password')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(HttpStatus.OK);
+      });
+    });
   });
 
   describe('Bookmarks', () => {
     describe('Get empty bookmarks', () => {
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should get bookmarks', () => {
         return pactum
           .spec()
@@ -187,6 +272,13 @@ describe('App e2e', () => {
         link: 'https://www.youtube.com/watch?v=d6WC5n9G_sM',
       };
 
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .post('/bookmarks')
+          .withBody(dto)
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should create bookmark', () => {
         return pactum
           .spec()
@@ -201,6 +293,12 @@ describe('App e2e', () => {
     });
 
     describe('Get bookmarks', () => {
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should get bookmarks', () => {
         return pactum
           .spec()
@@ -214,6 +312,13 @@ describe('App e2e', () => {
     });
 
     describe('Get bookmark by id', () => {
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should get bookmark by id', () => {
         return pactum
           .spec()
@@ -235,6 +340,14 @@ describe('App e2e', () => {
           'Learn how to use Kubernetes in this complete course. Kubernetes makes it possible to containerize applications and simplifies app deployment to production.',
       };
 
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .patch('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withBody(dto)
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should edit bookmark', () => {
         return pactum
           .spec()
@@ -251,6 +364,13 @@ describe('App e2e', () => {
     });
 
     describe('Delete bookmark by id', () => {
+      it('should throw if unauthorized', () => {
+        return pactum
+          .spec()
+          .delete('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
       it('should delete bookmark', () => {
         return pactum
           .spec()
@@ -261,7 +381,6 @@ describe('App e2e', () => {
           })
           .expectStatus(HttpStatus.NO_CONTENT);
       });
-
       it('should get empty bookmarks', () => {
         return pactum
           .spec()

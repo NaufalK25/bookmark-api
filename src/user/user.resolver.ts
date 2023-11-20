@@ -23,4 +23,12 @@ export class UserResolver {
   ) {
     return this.userService.editUser(userId, dto);
   }
+
+  @Mutation('changePassword')
+  changePassword(
+    @GqlGetUser('id') userId: number,
+    @Args('dto', ParseDTOPipe) dto: any,
+  ) {
+    return this.userService.changePassword(userId, dto);
+  }
 }

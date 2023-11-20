@@ -31,6 +31,11 @@ export class EditUser {
     lastName?: Nullable<string>;
 }
 
+export class ChangePassword {
+    oldPassword: string;
+    newPassword: string;
+}
+
 export class AuthResponse {
     access_token: string;
 }
@@ -46,7 +51,9 @@ export abstract class IMutation {
 
     abstract deleteBookmarkById(bookmarkId: number): Nullable<Void> | Promise<Nullable<Void>>;
 
-    abstract editUser(dto: EditUser): Nullable<User> | Promise<Nullable<User>>;
+    abstract editUser(dto: EditUser): User | Promise<User>;
+
+    abstract changePassword(dto: ChangePassword): User | Promise<User>;
 }
 
 export class Bookmark {

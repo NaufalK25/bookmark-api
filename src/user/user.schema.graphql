@@ -16,10 +16,16 @@ input EditUser {
   lastName: String
 }
 
+input ChangePassword {
+  oldPassword: String!
+  newPassword: String!
+}
+
 type Query {
   getMe: User!
 }
 
 type Mutation {
-  editUser(dto: EditUser!): User
+  editUser(dto: EditUser!): User!
+  changePassword(dto: ChangePassword!): User!
 }

@@ -16,7 +16,6 @@ export class EditUserDto {
   })
   @IsString()
   @IsOptional()
-  @IsOptional()
   firstName?: string;
 
   @ApiProperty({

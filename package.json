@@ -8,9 +8,10 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start": "node dist/main",
+    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"generate-typing.ts\" --fix",
     "prisma:deploy": "prisma migrate deploy",
     "graphql:generate": "ts-node generate-typing",

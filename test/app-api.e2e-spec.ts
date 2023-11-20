@@ -7,7 +7,7 @@ import { PrismaService } from '../src/prisma/prisma.service';
 import { ChangePasswordDto, EditUserDto } from '../src/user/dto';
 import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
 
-describe('App e2e', () => {
+describe('App API e2e', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
@@ -37,7 +37,7 @@ describe('App e2e', () => {
 
   describe('Auth', () => {
     const dto: AuthDto = {
-      email: 'naufal@gmail.com',
+      email: 'test-api@gmail.com',
       password: '123',
     };
 
@@ -107,7 +107,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signin')
           .withBody({
-            email: 'naufal2@gmail.com',
+            email: 'test-api2@gmail.com',
             password: dto.password,
           })
           .expectStatus(HttpStatus.FORBIDDEN);
@@ -153,12 +153,12 @@ describe('App e2e', () => {
     });
 
     describe('Edit user', () => {
-      it('should throw if unauthorized', () => {
-        const dto: EditUserDto = {
-          firstName: 'Naufal',
-          email: 'naufalk@gmail.com',
-        };
+      const dto: EditUserDto = {
+        firstName: 'Test API',
+        email: 'test-api0@gmail.com',
+      };
 
+      it('should throw if unauthorized', () => {
         return pactum
           .spec()
           .patch('/users')
@@ -166,11 +166,6 @@ describe('App e2e', () => {
           .expectStatus(HttpStatus.UNAUTHORIZED);
       });
       it('should edit user', () => {
-        const dto: EditUserDto = {
-          firstName: 'Naufal',
-          email: 'naufalk@gmail.com',
-        };
-
         return pactum
           .spec()
           .patch('/users')

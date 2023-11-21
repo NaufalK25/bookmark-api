@@ -1,5 +1,7 @@
+import * as compression from 'compression';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { constants } from 'zlib';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
@@ -34,6 +36,12 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document, {
     customSiteTitle: 'Bookmark API Docs',
   });
+
+  app.use(
+    compression({
+      level: constants.Z_BEST_COMPRESSION,
+    }),
+  );
 
   await app.listen(3000);
 }

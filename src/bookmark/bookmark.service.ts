@@ -95,7 +95,7 @@ export class BookmarkService {
       },
       data: {
         ...dto,
-        thumbnail: thumbnail ? thumbnail.filename : 'thumbnail.jpg',
+        thumbnail: thumbnail ? thumbnail.filename : bookmark.thumbnail,
         updatedAt: new Date(),
       },
     });

@@ -27,6 +27,7 @@ export const ThumbnailInterceptor = () => {
             null,
           );
         }
+
         cb(null, `${Date.now()}-${file.originalname}`);
       },
     }),

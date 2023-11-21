@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -64,7 +65,7 @@ export class Bookmark {
     title: string;
     description?: Nullable<string>;
     link: string;
-    thumbnail?: Nullable<string>;
+    thumbnail: string;
     userId: number;
 }
 

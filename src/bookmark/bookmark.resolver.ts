@@ -1,9 +1,9 @@
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { BookmarkService } from './bookmark.service';
 import { GqlGetUser } from '../auth/decorator';
 import { GqlJwtGuard } from '../auth/guard';
-import { ParseDTOPipe } from '../common/pipes';
+import { ParseDTOPipe } from '../common/pipe';
+import { BookmarkService } from './bookmark.service';
 
 @UseGuards(GqlJwtGuard)
 @Resolver('Bookmark')

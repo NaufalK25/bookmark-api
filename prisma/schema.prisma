@@ -33,6 +33,7 @@ model Bookmark {
   title       String
   description String?
   link        String
+  thumbnail   String  @default("thumbnail.jpg")
 
   userId Int
   user   User @relation(fields: [userId], references: [id])

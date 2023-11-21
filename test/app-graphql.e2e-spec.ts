@@ -3,9 +3,10 @@ import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from '../src/auth/dto';
+import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { ChangePasswordDto, EditUserDto } from '../src/user/dto';
-import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
+import { Auth } from '../src/graphql.schema';
 
 describe('App GraphQL e2e', () => {
   let app: INestApplication;
@@ -36,7 +37,7 @@ describe('App GraphQL e2e', () => {
   });
 
   describe('Auth', () => {
-    const auth = {
+    const auth: Auth = {
       email: 'test-graphql@gmail.com',
       password: '123',
     };
@@ -155,43 +156,41 @@ describe('App GraphQL e2e', () => {
   });
 
   // describe('User', () => {
-  // describe('Get me', () => {
-  // const getMeQuery = `query GetMe {
-  //         getMe {
-  //           id,
-  //           email,
-  //           firstName,
-  //           lastName,
-  //           createdAt,
-  //           updatedAt
-  //         }
-  //       }`;
+  //   describe('Get me', () => {
+  //     const getMeQuery = `query GetMe {
+  //           getMe {
+  //             id,
+  //             email,
+  //             firstName,
+  //             lastName,
+  //             createdAt,
+  //             updatedAt
+  //           }
+  //         }`;
 
-  // it('should throw if unauthorized', () => {
-  //   return pactum
-  //     .spec()
-  //     .post('/graphql')
-  //     .withGraphQLQuery(getMeQuery)
-  //     .expectStatus(HttpStatus.OK);
-  // });
-  // it('should get current user', () => {
-  //   return pactum
-  //     .spec()
-  //     .post('graphql')
-  //     .withHeaders({
-  //       Authorization: 'Bearer $S{userAccessToken}',
-  //     })
-  //     .withGraphQLQuery(getMeMutation)
-  //     .expectStatus(HttpStatus.OK);
-  // });
-  // });
-
+  //     it('should throw if unauthorized', () => {
+  //       return pactum
+  //         .spec()
+  //         .post('/graphql')
+  //         .withGraphQLQuery(getMeQuery)
+  //         .expectStatus(HttpStatus.OK);
+  //     });
+  //     it('should get current user', () => {
+  //       return pactum
+  //         .spec()
+  //         .post('/graphql')
+  //         .withHeaders({
+  //           Authorization: 'Bearer $S{userAccessToken}',
+  //         })
+  //         .withGraphQLQuery(getMeQuery)
+  //         .expectStatus(HttpStatus.OK);
+  //     });
+  //   });
   // describe('Edit user', () => {
   //   const dto: EditUserDto = {
   //     firstName: 'Test GraphQL',
   //     email: 'test-graphql0@gmail.com',
   //   };
-
   //   it('should throw if unauthorized', () => {
   //     return pactum
   //       .spec()
@@ -212,14 +211,12 @@ describe('App GraphQL e2e', () => {
   //       .expectBodyContains(dto.email);
   //   });
   // });
-
   // describe('Change password', () => {
   //   it('should throw if unauthorized', () => {
   //     const dto: ChangePasswordDto = {
   //       oldPassword: '123',
   //       newPassword: '1234',
   //     };
-
   //     return pactum
   //       .spec()
   //       .patch('/users/change-password')
@@ -231,7 +228,6 @@ describe('App GraphQL e2e', () => {
   //       oldPassword: '123',
   //       newPassword: '123',
   //     };
-
   //     return pactum
   //       .spec()
   //       .patch('/users/change-password')
@@ -246,7 +242,6 @@ describe('App GraphQL e2e', () => {
   //       oldPassword: '1234',
   //       newPassword: '12345',
   //     };
-
   //     return pactum
   //       .spec()
   //       .patch('/users/change-password')
@@ -261,7 +256,6 @@ describe('App GraphQL e2e', () => {
   //       oldPassword: '123',
   //       newPassword: '1234',
   //     };
-
   //     return pactum
   //       .spec()
   //       .patch('/users/change-password')

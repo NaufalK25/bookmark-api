@@ -1,4 +1,3 @@
-
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -17,12 +16,14 @@ export class CreateBookmark {
     title: string;
     description?: Nullable<string>;
     link: string;
+    thumbnail?: Nullable<string>;
 }
 
 export class EditBookmark {
     title?: Nullable<string>;
     description?: Nullable<string>;
     link?: Nullable<string>;
+    thumbnail?: Nullable<string>;
 }
 
 export class EditUser {
@@ -63,6 +64,7 @@ export class Bookmark {
     title: string;
     description?: Nullable<string>;
     link: string;
+    thumbnail?: Nullable<string>;
     userId: number;
 }
 

@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { ParseDTOPipe } from '../common/pipes';
+import { ParseDTOPipe } from '../common/pipe';
 
 @Resolver('Auth')
 export class AuthResolver {

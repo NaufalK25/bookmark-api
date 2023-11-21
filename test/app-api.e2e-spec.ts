@@ -3,9 +3,9 @@ import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from '../src/auth/dto';
+import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { ChangePasswordDto, EditUserDto } from '../src/user/dto';
-import { CreateBookmarkDto, EditBookmarkDto } from '../src/bookmark/dto';
 
 describe('App API e2e', () => {
   let app: INestApplication;

@@ -1,6 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import * as path from 'path';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
@@ -36,5 +38,17 @@ export class AppController {
         docs: `${this.baseUrl}/api/docs`,
       },
     };
+  }
+
+  @ApiTags('bookmarks')
+  @ApiOperation({
+    summary: 'Serve bookmark thumbnail',
+  })
+  @Get('/upload/bookmarks/:fileName')
+  async serveBookmarkThumbnail(
+    @Param('fileName') fileName: string,
+    @Res() res: Response,
+  ) {
+    res.sendFile(fileName, { root: path.join('upload', 'bookmarks') });
   }
 }

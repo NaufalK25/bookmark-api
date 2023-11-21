@@ -1,10 +1,10 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from '@prisma/client';
-import { UserService } from './user.service';
-import { ParseDTOPipe } from '../common/pipes';
 import { GqlGetUser } from '../auth/decorator';
 import { GqlJwtGuard } from '../auth/guard';
+import { ParseDTOPipe } from '../common/pipe';
+import { UserService } from './user.service';
 
 @UseGuards(GqlJwtGuard)
 @Resolver('User')

@@ -9,13 +9,23 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto, EditBookmarkDto } from './dto';
+import { ThumbnailInterceptor } from './interceptor';
+import { ThumbnailValidatorPipe } from './pipe';
 
 @ApiTags('bookmarks')
 @ApiBearerAuth('access_token')
@@ -27,12 +37,29 @@ export class BookmarkController {
   @ApiOperation({
     summary: 'Create new bookmark',
   })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        description: { type: 'string' },
+        link: { type: 'string' },
+        thumbnail: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @Post()
+  @UseInterceptors(ThumbnailInterceptor())
   createBookmark(
     @GetUser('id') userId: number,
     @Body() dto: CreateBookmarkDto,
+    @UploadedFile(ThumbnailValidatorPipe()) thumbnail?: Express.Multer.File,
   ) {
-    return this.bookmarkService.createBookmark(userId, dto);
+    return this.bookmarkService.createBookmark(userId, dto, thumbnail);
   }
 
   @ApiOperation({
@@ -57,13 +84,35 @@ export class BookmarkController {
   @ApiOperation({
     summary: 'Update bookmark by id created by logged in user',
   })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        description: { type: 'string' },
+        link: { type: 'string' },
+        thumbnail: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @Patch(':id')
+  @UseInterceptors(ThumbnailInterceptor())
   editBookmarkById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) bookmarkId: number,
     @Body() dto: EditBookmarkDto,
+    @UploadedFile(ThumbnailValidatorPipe()) thumbnail?: Express.Multer.File,
   ) {
-    return this.bookmarkService.editBookmarkById(userId, bookmarkId, dto);
+    return this.bookmarkService.editBookmarkById(
+      userId,
+      bookmarkId,
+      dto,
+      thumbnail,
+    );
   }
 
   @ApiOperation({

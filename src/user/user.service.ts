@@ -14,6 +14,7 @@ export class UserService {
       },
       data: {
         ...dto,
+        updatedAt: new Date(),
       },
     });
 
@@ -53,6 +54,7 @@ export class UserService {
       },
       data: {
         hash: newHash,
+        updatedAt: new Date(),
       },
     });
 

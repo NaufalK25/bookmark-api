@@ -7,11 +7,17 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
-  );
+  app
+    .useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+      }),
+    )
+    .use(
+      compression({
+        level: constants.Z_BEST_COMPRESSION,
+      }),
+    );
 
   const config = new DocumentBuilder()
     .setTitle('Bookmark API')
@@ -36,12 +42,6 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document, {
     customSiteTitle: 'Bookmark API Docs',
   });
-
-  app.use(
-    compression({
-      level: constants.Z_BEST_COMPRESSION,
-    }),
-  );
 
   await app.listen(3000);
 }

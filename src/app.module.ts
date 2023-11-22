@@ -13,16 +13,16 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule,
-    UserModule,
-    BookmarkModule,
-    PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
       context: ({ req, res }) => ({ req, res }),
     }),
+    PrismaModule,
+    AuthModule,
+    UserModule,
+    BookmarkModule,
   ],
   controllers: [AppController],
 })

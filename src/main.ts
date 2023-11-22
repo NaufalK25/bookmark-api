@@ -1,8 +1,9 @@
 import * as compression from 'compression';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { constants } from 'zlib';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { constants } from 'zlib';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -43,6 +44,9 @@ async function bootstrap() {
     customSiteTitle: 'Bookmark API Docs',
   });
 
-  await app.listen(3000);
+  const configService = new ConfigService();
+  const port = configService.get('PORT') || 3000;
+  await app.listen(port);
 }
+
 bootstrap();

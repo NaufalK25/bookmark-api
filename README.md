@@ -70,12 +70,12 @@ Simple Bookmark API built with NestJS and Prisma
 1. Rest API
 
    ```
-   http://localhost:3001/api
-   http://localhost:3001/docs # for documentation
+   http://localhost:3000/api
+   http://localhost:3000/docs # for documentation
    ```
 
 2. GraphQL
 
    ```
-   http://localhost:3001/graphql
+   http://localhost:3000/graphql
    ```

@@ -15,6 +15,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"generate-typing.ts\" --fix",
     "prisma:deploy": "prisma migrate deploy",
     "graphql:generate": "ts-node generate-typing",
+    "vercel-build": "prisma generate && prisma migrate deploy",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

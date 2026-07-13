@@ -16,7 +16,6 @@ import { UserModule } from './user/user.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
-      installSubscriptionHandlers: true,
       context: ({ req, res }) => ({ req, res }),
     }),
     PrismaModule,
